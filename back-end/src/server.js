@@ -13,6 +13,9 @@ const port = process.env.PORT || 8888;
 const webRoutes = require('./routes/web')
 app.use('/',webRoutes);
 
+//connection
+const connection = require ("../src/config/database");
+connection();
 
 
 app.get('/',(req, res) =>{
