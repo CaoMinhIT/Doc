@@ -22,10 +22,7 @@ app.use('/',webRoutes);
 const connection = require ("../src/config/database");
 connection();
 
-// Model Kitten
-const Kitten = require('../src/models/kitten');
-// const cat = new Kitten({ name: 'CaoMinh' });
-// cat.save();
+
 
 // app.get('/',(req, res) =>{
 //     res.send("Hello World");
