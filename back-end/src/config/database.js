@@ -19,12 +19,12 @@ var dbState = [{
 }];
 
 
-
-
-
 const connection = async () => {
     try {
-        await mongoose.connect(`mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@cluster0.esjmwr3.mongodb.net/test`);
+        const options = {
+            dbName: process.env.DB_NAME
+        }
+        await mongoose.connect(`mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@cluster0.esjmwr3.mongodb.net/test`,options);
 
             const state = Number(mongoose.connection.readyState);
             console.log(dbState.find(f => f.value == state).label, "to db"); // connected to db

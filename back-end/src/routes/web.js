@@ -2,8 +2,14 @@ const express = require('express');
 const { Router } = require('express');
 const router = express.Router();
 
-const {Login} = require('../controllers/homeController');
+const {getHomePage, postCreateUser, login, getCreatePage} = require('../controllers/homeController');
 
-router.get('/login', Login);
+router.get('/', getHomePage)
+
+router.get('/login', login);
+
+router.get('/create', getCreatePage);
+router.post('/create-user',postCreateUser)
+
 
 module.exports = router;
