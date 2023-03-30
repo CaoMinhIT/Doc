@@ -1,5 +1,7 @@
-const User = require("../models/User");
+const User = require("../models/userModel");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken")
+require('dotenv').config();
 
 const authControllers = {
     //Register
@@ -13,6 +15,8 @@ const authControllers = {
                 // username: req.body.username,
                 email:req.body.email,
                 password: hashed,
+                type: req.body.type,
+                name: req.body.name,
             })
             const user = await newUser.save();
             res.status(200).json(user);
@@ -37,7 +41,15 @@ const authControllers = {
                 res.status(404).json("Wrong password");
             }
                 if(email && validPassword){
-                    res.status(200).json(email);
+                    const accessToken = jwt.sign(
+                    {
+                        id: email.id,
+                        type: email.type,
+                    },
+                    process.env.JWT_ACCESS_KEY,
+                    {expiresIn:"3h"},
+                    );
+                    res.status(200).json({email, accessToken});
                 }
 
         } catch (error) {
@@ -46,4 +58,4 @@ const authControllers = {
     },
 
 }
-module.exports = {authControllers};
+module.exports = authControllers;

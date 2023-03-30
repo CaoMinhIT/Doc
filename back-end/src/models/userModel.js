@@ -21,16 +21,19 @@ const userSchema = new mongoose.Schema({
         minlength: 6,
     },
     type:{
-        type: Boolean,
-        default:false ,
+        type: String,
+        require: true,
+        default: "user", 
     },
     status:{
         type: String,
-        default: "",
+        require: true,
+        default: "", 
     },
     token:{
         type: String,
         default: "", 
+        require: true,
     },
 
 

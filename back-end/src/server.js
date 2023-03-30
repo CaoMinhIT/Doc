@@ -1,6 +1,5 @@
 const express = require ('express');
 const app = express ();
-
 require('dotenv').config();
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
@@ -21,10 +20,10 @@ const configViewEngine = require('./config/viewEngine.js');
 configViewEngine(app);
 
 // routes
-// const webRoutes = require('./routes/web')
-// app.use('/',webRoutes);
 const authRoutes = require('./routes/auth')
 app.use('/v1/auth',authRoutes);
+ const userRoutes = require('./routes/user')
+app.use('/v1/user',userRoutes);
 
 
 
@@ -33,5 +32,5 @@ const connection = require ("../src/config/database");
 connection();
 
 app.listen(port,hostname, () => {
-    console.log(`Example app listening on port http://${hostname}:${port}/`)
+    console .log(`Example app listening on port http://${hostname}:${port}/`)
 })
