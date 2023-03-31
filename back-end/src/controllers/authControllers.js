@@ -1,9 +1,21 @@
 const User = require("../models/userModel");
 const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken")
+const jwt = require("jsonwebtoken");
+
+
 require('dotenv').config();
 
 const authControllers = {
+    // Access token
+    makeAccessToken:(email)=>{
+        return jwt.sign(
+            {
+                id: email.id,
+                type: email.type,
+            },
+            process.env.JWT_ACCESS_KEY);
+    },
+
     //Register
     registerUser: async(req,res)=>{
         try{
@@ -24,8 +36,8 @@ const authControllers = {
         }catch(error){
             res.status(500).json(err)
         }
-
     },
+
     //Login
     loginUser: async(req,res)=>{
         try {
@@ -41,21 +53,39 @@ const authControllers = {
                 res.status(404).json("Wrong password");
             }
                 if(email && validPassword){
-                    const accessToken = jwt.sign(
-                    {
-                        id: email.id,
-                        type: email.type,
-                    },
-                    process.env.JWT_ACCESS_KEY,
-                    {expiresIn:"3h"},
-                    );
-                    res.status(200).json({email, accessToken});
+                    const accessToken = authControllers.makeAccessToken(email);
+                    //save token to database
+                    User.findOneAndUpdate({id:req.params.id}, {token: accessToken}, (err, user) => {
+                        if(err){
+                            console.err(err);
+                        }else{
+                            console.log('token has been saved');
+                        }
+                    });
+                    res.status(200).json(accessToken);
                 }
 
         } catch (error) {
             res.status(500).json(err);
         }
     },
-
+    //LogOut
+    logoutUser: async(req,res) =>{
+            //save token to database
+            // User.findOneAndUpdate({ id:req.params.id }, { $unset: { token: 0 } }, (err, user) => {
+            //     if (err) {
+            //       console.error(err);
+            //     } else {
+            //       console.log('Token has been deleted');
+            //     }
+            //   });
+            User.findOneAndUpdate({id:req.params.id}, {token: ""}, (err, user) => {
+                if(err){
+                    console.err(err);
+                }else{
+                    console.log('token has been saved');
+                }
+            });
+    }
 }
 module.exports = authControllers;
