@@ -23,12 +23,12 @@ const authControllers = {
             const hashed = await bcrypt.hash(req.body.password,salt);
 
             // create new user
-            const newUser = await new User({
-                // username: req.body.username,
+            const newUser = await new User({              
                 email:req.body.email,
                 password: hashed,
+                username: req.body.username,
                 type: req.body.type,
-                name: req.body.name,
+
             })
             const user = await newUser.save();
             res.status(200).json(user);
@@ -71,19 +71,12 @@ const authControllers = {
     },
     //LogOut
     logoutUser: async(req,res) =>{
-            //save token to database
-            // User.findOneAndUpdate({ id:req.params.id }, { $unset: { token: 0 } }, (err, user) => {
-            //     if (err) {
-            //       console.error(err);
-            //     } else {
-            //       console.log('Token has been deleted');
-            //     }
-            //   });
+
             User.findOneAndUpdate({id:req.params.id}, {token: ""}, (err, user) => {
                 if(err){
                     console.err(err);
                 }else{
-                    console.log('token has been saved');
+                    console.log('token has been deleted');
                 }
             });
     }

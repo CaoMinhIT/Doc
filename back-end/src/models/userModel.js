@@ -9,7 +9,7 @@ const userSchema = new mongoose.Schema({
         minlength: 6,
         unique: true,
     },
-    name:{
+    username:{
         type: String,
         require: true,
         maxlength: 20,
@@ -28,7 +28,7 @@ const userSchema = new mongoose.Schema({
     status:{
         type: String,
         require: true,
-        default: "", 
+        default: "off", 
     },
     token:{
         type: String,
