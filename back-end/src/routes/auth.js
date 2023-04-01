@@ -6,5 +6,5 @@ const router = require('express').Router();
 router.post("/register", authControllers.registerUser)
 router.post("/login", authControllers.loginUser)
 
-router.post("/logout" , authControllers.logoutUser)
+router.post("/logout" ,middlewareController.verifyToken, authControllers.logoutUser)
 module.exports = router;

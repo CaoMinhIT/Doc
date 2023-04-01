@@ -1,4 +1,4 @@
-const User = require("../models/userModel");
+const userModel = require("../models/userModel");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
@@ -23,7 +23,7 @@ const authControllers = {
             const hashed = await bcrypt.hash(req.body.password,salt);
 
             // create new user
-            const newUser = await new User({              
+            const newUser = await new userModel({              
                 email:req.body.email,
                 password: hashed,
                 username: req.body.username,
@@ -41,8 +41,8 @@ const authControllers = {
     //Login
     loginUser: async(req,res)=>{
         try {
-            const email = await User.findOne({email: req.body.email});
-            const user = await User.findOne({email: req.body.email});
+            const email = await userModel.findOne({email: req.body.email});
+            const user = await userModel.findOne({email: req.body.email});
 
             if(!email){
                 res.status(404).json("Nhập sai email !");
@@ -55,32 +55,33 @@ const authControllers = {
                 res.status(404).json("Nhập sai mật khẩu !");
             }
                 if(email && validPassword){
-                    const accessToken = authControllers.makeAccessToken(email);
+                    const accessToken =  await authControllers.makeAccessToken(email);
                     //save token to database
-                    User.findOneAndUpdate({id:req.params.id}, {token: accessToken}, (err, user) => {
-                        if(err){
-                            console.err(err);
+                    userModel.findOneAndUpdate ({_id: email}, {$set: {token: accessToken}},{new:true}, (error) => {
+                        if(error){
+                            console.error(error);
                         }else{
                             console.log('Token đã được lưu');
                         }
                     });
-                    res.status(200).json({user,accessToken});
+                    res.status(200).json({user, accessToken});
                 }
 
         } catch (error) {
-            res.status(500).json(err);
+            res.status(500).json(error);
         }
     },
     //LogOut
     logoutUser: async(req,res) =>{
-
-            User.findOneAndUpdate({id:req.params.id}, {token: ""}, (err, user) => {
-                if(err){
-                    console.err(err);
+        const Deltoken  = req.headers.token;
+            userModel.findOneAndUpdate({token: Deltoken}, {$set: {token: ""}},{new:true}, (error) => {
+                if(error){
+                    console.error(error);
                 }else{
-                    console.log('Token đã bị xóa');
+                    res.status(200).json("Đã thoát")
                 }
             });
+            
     }
 }
 module.exports = authControllers;
