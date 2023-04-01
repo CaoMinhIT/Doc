@@ -26,9 +26,8 @@ const userSchema = new mongoose.Schema({
         default: "user", 
     },
     status:{
-        type: String,
-        require: true,
-        default: "off", 
+        type: Boolean,
+        default: true, 
     },
     token:{
         type: String,

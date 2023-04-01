@@ -45,14 +45,14 @@ const authControllers = {
             const user = await User.findOne({email: req.body.email});
 
             if(!email){
-                res.status(404).json("Wrong email!");
+                res.status(404).json("Nhập sai email !");
             }
             const validPassword = await bcrypt.compare(
                 req.body.password,
                 email.password
             );
             if(!validPassword){
-                res.status(404).json("Wrong password");
+                res.status(404).json("Nhập sai mật khẩu !");
             }
                 if(email && validPassword){
                     const accessToken = authControllers.makeAccessToken(email);
@@ -61,7 +61,7 @@ const authControllers = {
                         if(err){
                             console.err(err);
                         }else{
-                            console.log('token has been saved');
+                            console.log('Token đã được lưu');
                         }
                     });
                     res.status(200).json({user,accessToken});
@@ -78,7 +78,7 @@ const authControllers = {
                 if(err){
                     console.err(err);
                 }else{
-                    console.log('token has been deleted');
+                    console.log('Token đã bị xóa');
                 }
             });
     }
