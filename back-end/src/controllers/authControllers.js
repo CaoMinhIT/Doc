@@ -42,6 +42,8 @@ const authControllers = {
     loginUser: async(req,res)=>{
         try {
             const email = await User.findOne({email: req.body.email});
+            const user = await User.findOne({email: req.body.email});
+
             if(!email){
                 res.status(404).json("Wrong email!");
             }
@@ -62,7 +64,7 @@ const authControllers = {
                             console.log('token has been saved');
                         }
                     });
-                    res.status(200).json(accessToken);
+                    res.status(200).json({user,accessToken});
                 }
 
         } catch (error) {
