@@ -17,24 +17,29 @@ const authControllers = {
     },
 
     //Register
+ 
+
     registerUser: async(req,res)=>{
         try{
             const salt = await bcrypt.genSalt(10);
             const hashed = await bcrypt.hash(req.body.password,salt);
 
-            // create new user
-            const newUser = await new userModel({              
+            const existingUser = await userModel.findOne({ email: req.body.email });
+            if (existingUser) {
+            res.status(404).json( "Email này đã tồn tại" );
+            } else {
+            const newUser = await new userModel({   
                 email:req.body.email,
                 password: hashed,
                 username: req.body.username,
                 type: req.body.type,
-
-            })
-            const user = await newUser.save();
-            res.status(200).json(user);
+            });
+            const savedUser = await newUser.save();
+            res.status(200).json(savedUser);
+            }
 
         }catch(error){
-            res.status(500).json(err)
+            res.status(500).json(error)
         }
     },
 
