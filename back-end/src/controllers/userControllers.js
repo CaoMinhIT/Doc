@@ -22,14 +22,15 @@ const userControllers ={
 
     changeStatus: async(req,res)=>{
             const changing =  await User.findOne({id: req.params.id})
-            const status_changeT = await User.findByIdAndUpdate(req.params.id,{ $set: { statusType: !changing.statusType } },(error,user ) =>{
+            await User.findOneAndUpdate(req.params.id,{ statusType: !changing.statusType  },(error,user ) =>{
                 if(error){
                     res.status(400).json(error);
                 }
                 else{
                     res.status(200).json("Đã thay đổi thành công ");
                 }
-            });
+            }).clone().catch(function(error){console.log(error)});
+            
     }
 }
 module.exports = userControllers;
