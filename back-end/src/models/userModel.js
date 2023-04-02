@@ -25,10 +25,15 @@ const userSchema = new mongoose.Schema({
         require: true,
         default: "user", 
     },
-    status:{
-        type: Boolean,
-        default: true, 
-    },
+    // status:{
+    //     type: Boolean,
+    //     default: true, 
+    // },
+    // statusType:{
+    //     type: Boolean,
+    //     default: true, 
+    // },
+    statusType: Boolean,
     token:{
         type: String,
         default: "", 

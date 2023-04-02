@@ -18,6 +18,18 @@ const userControllers ={
         }catch(error){
             res.status(500).json(error);
         }
+    },
+
+    changeStatus: async(req,res)=>{
+            const changing =  await User.findOne({id: req.params.id})
+            const status_changeT = await User.findByIdAndUpdate(req.params.id,{ $set: { statusType: !changing.statusType } },(error,user ) =>{
+                if(error){
+                    res.status(400).json(error);
+                }
+                else{
+                    res.status(200).json("Đã thay đổi thành công ");
+                }
+            });
     }
 }
 module.exports = userControllers;
