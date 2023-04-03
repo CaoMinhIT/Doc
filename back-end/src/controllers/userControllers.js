@@ -21,8 +21,9 @@ const userControllers ={
     },
 
     changeStatus: async(req,res)=>{
-            const changing =  await User.findOne({id: req.params.id})
-            await User.findOneAndUpdate(req.params.id,{ statusType: !changing.statusType  },(error,user ) =>{
+            const changing =  await User.findById(req.params.id)
+
+            await User.findByIdAndUpdate(req.params.id,{statusType: !changing.statusType  },(error,user ) =>{
                 if(error){
                     res.status(400).json(error);
                 }
