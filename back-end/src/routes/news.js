@@ -1,8 +1,8 @@
 const router = require("express").Router();
-const newControllers = require("../controllers/newController");
+const newsControllers = require("../controllers/newsController");
 const middlewareController = require("../controllers/middlewareControllers");
 
 // get all news
-router.get("/" ,newControllers.getAllNews);
+router.get("/" ,newsControllers.getAllNews);
 
 module.exports = router;

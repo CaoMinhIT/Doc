@@ -1,5 +1,5 @@
 const { default: mongoose } = require("mongoose");
-const New = require("../models/newsModel");
+const News = require("../models/newsModel");
 const userCollection = mongoose.model("User");
 
 const newControllers ={
@@ -10,7 +10,7 @@ const newControllers ={
         try{
         const findToken = await userCollection.findOne ({token: Deltoken})
             if(findToken){
-                const news = await New.find();
+                const news = await News.find();
                 res.status(200).json(news);
             }else{
                 res.status(500).json("Không tìm thấy người dùng")

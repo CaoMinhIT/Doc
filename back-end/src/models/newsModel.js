@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 // Schema Định dạng hình thù Data
-const newSchema = new mongoose.Schema({ 
+const newsSchema = new mongoose.Schema({ 
     image:{
         type: String,
         require: true,
@@ -20,4 +20,4 @@ const newSchema = new mongoose.Schema({
 
 },{timestamps:true});
 
-module.exports = mongoose.model("New",newSchema);
+module.exports = mongoose.model("New",newsSchema);
