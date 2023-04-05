@@ -1,0 +1,11 @@
+.w_40 {
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.w_10 {
+    width: 10%;
+    white-space: nowrap; 
+    overflow: hidden; 
+    text-overflow: ellipsis;
+}
