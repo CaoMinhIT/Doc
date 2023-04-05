@@ -10,7 +10,6 @@ const userControllers ={
             res.status(500).json(error);
         }
     },
-
     deleteUser: async(req,res)=>{
         try{
             const user = await User.findByIdAndDelete(req.params.id);         
@@ -19,7 +18,6 @@ const userControllers ={
             res.status(500).json(error);
         }
     },
-
     changeStatus: async(req,res)=>{
             const changing =  await User.findById(req.params.id)
 
@@ -34,4 +32,5 @@ const userControllers ={
             
     }
 }
+
 module.exports = userControllers;

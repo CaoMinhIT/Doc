@@ -8,4 +8,6 @@ router.get("/" ,middlewareController.verifyToken ,userControllers.getAllUsers);
 router.delete("/:id",userControllers.deleteUser);
 // change status
 router.put("/:id/changeStatus",userControllers.changeStatus);
+
+
 module.exports = router;

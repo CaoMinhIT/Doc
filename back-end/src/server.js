@@ -19,11 +19,15 @@ const port = process.env.PORT || 8888;
 const configViewEngine = require('./config/viewEngine.js');
 configViewEngine(app);
 
-// routes
+// routes 
 const authRoutes = require('./routes/auth')
 app.use('/v1/auth',authRoutes);
- const userRoutes = require('./routes/user')
+
+const userRoutes = require('./routes/user')
 app.use('/v1/user',userRoutes);
+
+const newRoutes = require('./routes/new')
+app.use('/v1/news',newRoutes);
 
 
 
