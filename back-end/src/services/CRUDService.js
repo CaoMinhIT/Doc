@@ -22,10 +22,10 @@ const getUserByID = async (userID) => {
 //     return results;
 // };
 
-const getHomePage = async (req, res) => {
-    let result = await User.find({});
-    return res.render('home', { listUsers: result });
-}
+// const getHomePage = async (req, res) => {
+//     let result = await User.find({});
+//     return res.render('home', { listUsers: result });
+// }
 
 const deleteUserById = async (userID) => {
     let [results, fields] = await connection.query(
