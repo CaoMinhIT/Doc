@@ -11,21 +11,21 @@ const getUserByID = async (userID) => {
     return user;
 };
 
-// const updateUserById = async(email, name, city, userID) =>{
+const updateUserById = async (email, name, city, userID) => {
 
-//     let [results, fields]  = await connection.query(
-//         `UPDATE Users  
-//         SET email = ?, name = ?, city = ?   
-//         WHERE id = ?`, [email, name, city, userID]
-//         );
+    let [results, fields] = await connection.query(
+        `UPDATE Users  
+        SET email = ?, name = ?, city = ?   
+        WHERE id = ?`, [email, name, city, userID]
+    );
 
-//     return results;
-// };
+    return results;
+};
 
-// const getHomePage = async (req, res) => {
-//     let result = await User.find({});
-//     return res.render('home', { listUsers: result });
-// }
+const getHomePage = async (req, res) => {
+    let result = await User.find({});
+    return res.render('home', { listUsers: result });
+}
 
 const deleteUserById = async (userID) => {
     let [results, fields] = await connection.query(
