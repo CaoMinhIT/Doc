@@ -5,13 +5,17 @@ import { dummyDataNews } from '../../dummyData/dummyData';
 import MyPagination from "../../common/MyPagination";
 
 const Admin = () => {
-    const newsList = dummyDataNews;
+    const [newsList, setNewsList] = useState([...dummyDataNews]);
     const [page, setPage] = useState(1);
     const total = newsList.length % 8 > 0 ? newsList.length/8+1 : newsList.length/8;
 
     const deletedNewsHandler = (id) => {
-        console.log('deleted: ', id);
+        const list = [...newsList];
+        const index = list.findIndex((news) => news.id === id);
+        list.splice(index, 1);
+        setNewsList(list);
     }
+
     const handlerChangePage = useCallback((page) => {
         setPage(page);
     }, [])
@@ -19,22 +23,22 @@ const Admin = () => {
     return (
         <Layout props={{type: "admin"}}>
             <h1 className="my-4">Danh sách bài viết</h1>
-            <Table hover>
+            <Table hover className="table table-bordered border-dark" style={{"table-layout": "fixed"}}>
                 <thead>
                     <tr>
-                        <th>id</th>
-                        <th className="w-50">Tiêu đề</th>
-                        <th>Ngày đăng</th>
-                        <th>Xóa bài viết</th>
+                        <th colspan="1">id</th>
+                        <th colspan="6">Tiêu đề</th>
+                        <th colspan="2">Ngày đăng</th>
+                        <th colspan="3">Xóa bài viết</th>
                     </tr>
                 </thead>
                 <tbody>
                     {newsList.slice((page-1)*8, (page-1)*8+8).map((news, index) => {
                         return (<tr key={index}>
-                            <td>{news.id}</td>
-                            <td className="w-50">{news.title}</td>
-                            <td>{news.date_created}</td>
-                            <td><Button variant="outline-danger" onClick={() => deletedNewsHandler(news.id)}>Xóa bài viết</Button></td>
+                            <td colspan="1">{news.id}</td>
+                            <td colspan="6">{news.title}</td>
+                            <td colspan="2">{news.date_created}</td>
+                            <td colspan="3"><Button variant="outline-danger" onClick={() => deletedNewsHandler(news.id)}>Xóa bài viết</Button></td>
                         </tr>)
                     })}
                 </tbody>
