@@ -1,36 +1,41 @@
 const connection = require("../config/database");
 
-const getAllUsers = async() =>{
+const getAllUsers = async () => {
     let [results, fileds] = await connection.query('select * from Users');
     return results;
 };
 
-const getUserByID = async(userID) =>{
+const getUserByID = async (userID) => {
     let [results, fields] = await connection.query("select * from Users where id = ?", [userID])
-    let user = results && results.length > 0 ? results [0] : {};
+    let user = results && results.length > 0 ? results[0] : {};
     return user;
 };
 
-const updateUserById = async(email, name, city, userID) =>{
+// const updateUserById = async(email, name, city, userID) =>{
 
-    let [results, fields]  = await connection.query(
-        `UPDATE Users  
-        SET email = ?, name = ?, city = ?   
-        WHERE id = ?`, [email, name, city, userID]
-        );
+//     let [results, fields]  = await connection.query(
+//         `UPDATE Users  
+//         SET email = ?, name = ?, city = ?   
+//         WHERE id = ?`, [email, name, city, userID]
+//         );
 
-    return results;
-};
+//     return results;
+// };
 
-const deleteUserById = async(userID) =>{
-    let [results, fields]  = await connection.query(
+const getHomePage = async (req, res) => {
+    let result = await User.find({});
+    return res.render('home', { listUsers: result });
+}
+
+const deleteUserById = async (userID) => {
+    let [results, fields] = await connection.query(
         `DELETE FROM Users WHERE id = ?;`, [userID]
-        );
+    );
 
     return results;
 };
 
 module.exports = {
-    getAllUsers,getUserByID,
+    getAllUsers, getUserByID,
     updateUserById, deleteUserById,
 };
