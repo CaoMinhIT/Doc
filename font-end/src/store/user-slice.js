@@ -5,6 +5,7 @@ const userSlice = createSlice({
     initialState: { userInfo: {
         name: 'Người dùng 1',
         gmail: '',
+        isAdmin: true,
     }},
     reducers: {
         setInfo(state, user) {
