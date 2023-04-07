@@ -2,23 +2,28 @@ const { default: mongoose } = require("mongoose");
 const newsModel = require("../models/newsModel");
 const userCollection = mongoose.model("User");
 const userModel = require("../models/newsModel");
+const middlewareController = require("../middleware/middlewareControllers");
 
 const newControllers ={
-
     getAllNews: async(req,res)=>{
-
-        const Deltoken  = req.headers.token;
-        try{
-        const findToken = await userCollection.findOne ({token: Deltoken})
-            if(findToken){
-                const news = await newsModel.find();
-                res.status(200).json(news);
-            }else{
-                res.status(500).json("Không tìm thấy người dùng")
-            }
-        }catch(error){
-            console.error(error);
-            res.status(500).json("Lỗi server");
+        // const Deltoken  = req.headers.token;
+        // try{
+        // const findToken = await userCollection.findOne ({token: Deltoken})
+        //     if(findToken){
+        //         const news = await newsModel.find();
+        //         res.status(200).json(news);
+        //     }else{
+        //         res.status(500).json("Không tìm thấy người dùng")
+        //     }
+        // }catch(error){
+        //     console.error(error);
+        //     res.status(500).json("Lỗi server");
+        // }
+        try {
+            const news = await newsModel.find();
+            res.status(200).json(news);
+        } catch (error) {
+            res.status(500).json("Không tìm thấy người dùng")
         }
     },
 
@@ -38,23 +43,28 @@ const newControllers ={
     },
 
     deleteNews: async(req,res) =>{
-        const Deltoken = req.headers.token
-        const delNewsId = req.params.id;      
-        try{
-
-            const userC = await userCollection.findOne({token : Deltoken}).exec();
-            if (userC && userC.type == 'admin' ){
-                const delNews = await newsModel.findByIdAndDelete(delNewsId).exec();   
-                if(delNews) {
-                    res.status(200).json("Xóa tin tức thành công");                  
-                }else{
-                    res.status(404).json("Không tìm thấy tin này");
-                }
-            }else{
-                res.status(401).json("Không có quyền truy cập");
-            }
-        }catch(error){
-            res.status(500).json(error);
+        // const Deltoken = req.headers.token
+        // const delNewsId = req.params.id;      
+        // try{
+        //     const userC = await userCollection.findOne({token : Deltoken}).exec();
+        //     if (userC && userC.type == 'admin' ){
+        //         const delNews = await newsModel.findByIdAndDelete(delNewsId).exec();   
+        //         if(delNews) {
+        //             res.status(200).json("Xóa tin tức thành công");                  
+        //         }else{
+        //             res.status(404).json("Không tìm thấy tin này");
+        //         }
+        //     }else{
+        //         res.status(401).json("Không có quyền truy cập");
+        //     }
+        // }catch(error){
+        //     res.status(500).json(error);
+        // }
+        try {
+            const delNews = await newsModel.findByIdAndDelete(req.params.id);
+            res.status(200).json("Xóa bài viết thành công")
+        } catch (error) {
+            res.status(403).json(error)
         }
     }
 

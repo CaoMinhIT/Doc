@@ -85,8 +85,7 @@ const authControllers = {
                 }else{
                     res.status(200).json("Đã thoát")
                 }
-            });
-            
+            });  
     }
 }
 module.exports = authControllers;
