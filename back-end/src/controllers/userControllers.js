@@ -20,7 +20,6 @@ const userControllers ={
     },
     changeStatus: async(req,res)=>{
             const changing =  await User.findById(req.params.id)
-
             await User.findByIdAndUpdate(req.params.id,{statusType: !changing.statusType  },(error,user ) =>{
                 if(error){
                     res.status(400).json(error);
@@ -28,8 +27,7 @@ const userControllers ={
                 else{
                     res.status(200).json("Đã thay đổi thành công ");
                 }
-            }).clone().catch(function(error){console.log(error)});
-            
+            }).clone().catch(function(error){console.log(error)});            
     }
 }
 
