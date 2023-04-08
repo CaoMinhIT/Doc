@@ -15,8 +15,8 @@ const Layout = ({ props, children }) => {
     <div>
       <Header type={props?.type}/>
       <Container className={classes.container}>
-        <Button className="my-3" variant="success" onClick={handlerBack}> Quay lại</Button>
-        {children}
+        {(props?.type === 'detail') && <Button className="my-3" variant="success" onClick={handlerBack}> Quay lại</Button>}
+        <div>{children}</div>
       </Container>
       {!(props?.type === 'admin') && <Footer />}
     </div>
