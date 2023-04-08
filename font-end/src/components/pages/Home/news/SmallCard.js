@@ -5,7 +5,7 @@ import classes from './SmallCard.module.css';
 const SmallCard = (props) => {
     const news = props.news;
     return (
-        <Link className={classes.card + ' d-flex'} to={props.slug}>
+        <Link className={classes.card + ' d-flex'} to={`/news/${news.id}`}>
             <p>{news.title}</p>
             <img src={news.image} alt="news" width='40%'></img>
         </Link>

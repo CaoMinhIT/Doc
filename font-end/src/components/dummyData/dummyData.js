@@ -26,7 +26,7 @@ export const dummyDataNews = [
 ];
 
 export const dummyDataUsers = [
-    {id: 0, name: 'User 1', gmail: 'user1@gmail.com', password: '123456', status: 'Hoạt động'},
+    {id: 0, name: 'Admin 1', gmail: 'admin@gmail.com', password: '123456', status: 'Hoạt động', isAdmin: true},
     {id: 1, name: 'User 2', gmail: 'user2@gmail.com', password: '123456', status: 'Hoạt động'},
     {id: 2, name: 'User 3', gmail: 'user3@gmail.com', password: '123456', status: 'Hoạt động'},
     {id: 3, name: 'User 4', gmail: 'user4@gmail.com', password: '123456', status: 'Hoạt động'},

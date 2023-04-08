@@ -3,6 +3,7 @@ import { Button, Table } from "react-bootstrap";
 import Layout from "../../layout/Layout";
 import { dummyDataNews } from '../../dummyData/dummyData';
 import MyPagination from "../../common/MyPagination";
+import CreateNewsModal from "./CreateNewsModal";
 
 const Admin = () => {
     const [newsList, setNewsList] = useState([...dummyDataNews]);
@@ -20,25 +21,33 @@ const Admin = () => {
         setPage(page);
     }, [])
 
+    const [show, setShow] = useState(false);
+
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+
     return (
         <Layout props={{type: "admin"}}>
-            <h1 className="my-4">Danh sách bài viết</h1>
-            <Table hover className="table table-bordered border-dark" style={{"table-layout": "fixed"}}>
+            <div className="d-flex align-items-center">
+                <h1 className="my-4">Danh sách bài viết</h1>
+                <div className="ms-auto"><Button variant="success" className="fw-bolder" onClick={handleShow}>+ Tạo bài viết</Button></div>
+            </div>
+            <Table hover className="table table-bordered border-dark" style={{tableLayout: "fixed"}}>
                 <thead>
                     <tr>
-                        <th colspan="1">id</th>
-                        <th colspan="6">Tiêu đề</th>
-                        <th colspan="2">Ngày đăng</th>
-                        <th colspan="3">Xóa bài viết</th>
+                        <th colSpan="1">id</th>
+                        <th colSpan="6">Tiêu đề</th>
+                        <th colSpan="2">Ngày đăng</th>
+                        <th colSpan="3">Xóa bài viết</th>
                     </tr>
                 </thead>
                 <tbody>
                     {newsList.slice((page-1)*8, (page-1)*8+8).map((news, index) => {
                         return (<tr key={index}>
-                            <td colspan="1">{news.id}</td>
-                            <td colspan="6">{news.title}</td>
-                            <td colspan="2">{news.date_created}</td>
-                            <td colspan="3"><Button variant="outline-danger" onClick={() => deletedNewsHandler(news.id)}>Xóa bài viết</Button></td>
+                            <td colSpan="1">{news.id}</td>
+                            <td colSpan="6">{news.title}</td>
+                            <td colSpan="2">{news.date_created}</td>
+                            <td colSpan="3"><Button variant="outline-danger" onClick={() => deletedNewsHandler(news.id)}>Xóa bài viết</Button></td>
                         </tr>)
                     })}
                 </tbody>
@@ -52,6 +61,7 @@ const Admin = () => {
                     />}
                 </div>
             </div>
+            <CreateNewsModal show={show} newsList={newsList} handleClose={handleClose} setNewsList={setNewsList}/>
         </Layout>
     )
 }

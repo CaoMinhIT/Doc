@@ -31,24 +31,26 @@ const AccountManagement = () => {
     return (
         <Layout props={{type: "admin"}}>
             <h1 className="my-4">Danh sách bài viết</h1>
-            <Table hover className="table table-bordered border-dark" style={{"table-layout": "fixed"}}>
-                <thead className="table-dark">
+            <Table hover className="table table-bordered border-secondary" style={{tableLayout: "fixed"}}>
+                <thead>
                     <tr>
-                        <th colspan="2">id</th>
-                        <th colspan="2">Họ và tên</th>
-                        <th colspan="2">Gmail</th>
-                        <th colspan="2">Trạng thái</th>
-                        <th colspan="4"></th>
+                        <th colSpan="1">id</th>
+                        <th colSpan="2">Họ và tên</th>
+                        <th colSpan="3">Gmail</th>
+                        <th colSpan="1">Trạng thái</th>
+                        <th colSpan="1">Loại</th>
+                        <th colSpan="4"></th>
                     </tr>
                 </thead>
                 <tbody>
                     {usersList.slice((page-1)*8, (page-1)*8+8).map((user, index) => {
                         return (<tr key={index}>
-                            <td colspan="2">{user.id}</td>
-                            <td colspan="2">{user.name}</td>
-                            <td colspan="2">{user.gmail}</td>
-                            <td colspan="2">{user.status}</td>
-                            <td colspan="4">
+                            <td colSpan="1">{user.id}</td>
+                            <td colSpan="2">{user.name}</td>
+                            <td colSpan="3">{user.gmail}</td>
+                            <td colSpan="1">{user.status}</td>
+                            <td colSpan="1">{user.isAdmin ? 'Admin' : 'User'}</td>
+                            <td colSpan="4">
                                <div className="d-flex">
                                     <div className="me-3"><Button variant="outline-danger" onClick={() => deletedUserHandler(user.id)}>Xóa người dùng</Button></div>
                                     <div><Button variant="outline-primary" onClick={() => blockedUserHandler(user.id)}>{user.status === 'Bị khóa' ? "Mở khóa người dùng" : "Khóa người dùng"}</Button></div>

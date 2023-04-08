@@ -10,7 +10,7 @@ const Home = () => {
             <img className={classes.banner} src="https://thumbs.dreamstime.com/b/orange-sky-over-sea-sunset-coloring-clouds-bright-light-51802926.jpg" alt="banner"></img>
             <h1 className={classes.color_pink}>Tin mới nhất</h1>
             <div className="row">
-                {dummyDataNews.map((item, index) => {
+                {dummyDataNews.slice(0,8).map((item, index) => {
                     return (
                         <div key={index} className="col-3">
                             <NewsCard news={item} color="pink" />
