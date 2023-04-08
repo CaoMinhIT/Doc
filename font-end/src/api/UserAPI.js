@@ -1,34 +1,50 @@
-import axiosClient from "../axiosClient";
-import authHeader from "./auth-header";
+import axios from "axios";
+const baseUrl = process.env.REACT_APP_BASE_URL;
 
-const userApi ={
-    register: (parma, checked) =>{
-        const url = "/auth/register"
-        return axiosClient.post(
-            url, {
-                Email: parma.Email,
-                Username: parma.username,
-                Password: parma.Password,
-                
-            }
-        );
-    },
-
-    signIn: (param) => {
-        const url = "/auth/Login";
-        return(axiosClient.post(
-        url,
-        {
-            Email: param.Email,
-            Password: param.Password,
-        }
-        ).then(function(response) {
-            return response;
-        }).catch(function(error) {
-            return error;
-        }
-        ));
-    },
-
+export const signUp = async (email, password, username) => {
+  try {
+      const res = await axios({
+      method: 'post',
+      url: baseUrl + '/auth/register',
+      data: {
+        email,
+        password,
+        username,
+      }
+    });
+    return res;
+  } catch (error) {
+    throw error;
+  }
 }
-export default userApi;
+
+
+export const login = async (email, password) => {
+  try {
+      const res = await axios({
+      method: 'post',
+      url: baseUrl + '/auth/login',
+      data: {
+        email,
+        password
+      }
+    });
+    return res;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export const logout = async (token) => {
+  try {
+      await axios({
+      method: 'post',
+      url: baseUrl + '/auth/logout',
+      headers: {
+        "token": token
+      },
+    });
+  } catch (error) {
+    throw error;
+  }
+}

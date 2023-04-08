@@ -1,28 +1,49 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Button, Table } from "react-bootstrap";
 import Layout from "../../layout/Layout";
-import { dummyDataUsers } from '../../dummyData/dummyData';
 import MyPagination from "../../common/MyPagination";
-
+import { changeStatusUser, deleteUser, getUsers } from "../../../api/adminApi";
 const AccountManagement = () => {
-    const [usersList, setUsersList] = useState([...dummyDataUsers]);
+    const [usersList, setUsersList] = useState([]);
     const [page, setPage] = useState(1);
     const total = usersList.length % 8 > 0 ? usersList.length/8+1 : usersList.length/8;
 
-    const deletedUserHandler = (id) => {
+    const deletedUserHandler = async (id) => {
         const list = [...usersList];
-        const index = list.findIndex((user) => user.id === id);
+        const index = list.findIndex((user) => user._id === id);
         list.splice(index, 1);
-        setUsersList(list);
+        try {
+            await deleteUser(id);
+            setUsersList(list);
+        } catch (error) {
+            console.log(error.message);
+        }
     }
 
-    const blockedUserHandler = (id) => {
-        const list = [...usersList];
-        const index = list.findIndex((user) => user.id === id);
-        list[index].status = list[index].status === 'Bị khóa' ? 'Hoạt động' : 'Bị khóa';
-        setUsersList(list);
+    const changeStatusUserHandler = async (id) => {
+        try {
+            await changeStatusUser(id);
+            const list = [...usersList];
+            const index = list.findIndex((user) => user._id === id);
+            list[index].statusType = !list[index].statusType;
+            setUsersList(list);
+        } catch (error) {
+            console.log(error.message);
+        }
     }
 
+    useEffect(() => {
+        const token = localStorage.getItem('access-token');
+        const getUsersList = async () => {
+            try {
+                const res = await getUsers(token);
+                setUsersList(res.data);
+            } catch (error) {
+                console.log(error.message);
+            }
+        };
+        getUsersList();
+    }, [])
 
     const handlerChangePage = useCallback((page) => {
         setPage(page);
@@ -34,9 +55,9 @@ const AccountManagement = () => {
             <Table hover className="table table-bordered border-secondary" style={{tableLayout: "fixed"}}>
                 <thead>
                     <tr>
-                        <th colSpan="1">id</th>
+                        <th colSpan="2">id</th>
                         <th colSpan="2">Họ và tên</th>
-                        <th colSpan="3">Gmail</th>
+                        <th colSpan="2">Email</th>
                         <th colSpan="1">Trạng thái</th>
                         <th colSpan="1">Loại</th>
                         <th colSpan="4"></th>
@@ -45,15 +66,15 @@ const AccountManagement = () => {
                 <tbody>
                     {usersList.slice((page-1)*8, (page-1)*8+8).map((user, index) => {
                         return (<tr key={index}>
-                            <td colSpan="1">{user.id}</td>
-                            <td colSpan="2">{user.name}</td>
-                            <td colSpan="3">{user.gmail}</td>
-                            <td colSpan="1">{user.status}</td>
-                            <td colSpan="1">{user.isAdmin ? 'Admin' : 'User'}</td>
+                            <td colSpan="2">{user._id}</td>
+                            <td colSpan="2">{user.username}</td>
+                            <td colSpan="2">{user.email}</td>
+                            <td colSpan="1">{user.statusType ? <p className='text-success fw-bold'>Hoạt động</p> : <p className='text-danger fw-bold'>Bị khóa</p>}</td>
+                            <td colSpan="1">{user.type}</td>
                             <td colSpan="4">
                                <div className="d-flex">
-                                    <div className="me-3"><Button variant="outline-danger" onClick={() => deletedUserHandler(user.id)}>Xóa người dùng</Button></div>
-                                    <div><Button variant="outline-primary" onClick={() => blockedUserHandler(user.id)}>{user.status === 'Bị khóa' ? "Mở khóa người dùng" : "Khóa người dùng"}</Button></div>
+                                    <div className="me-3"><Button variant="outline-danger" onClick={() => deletedUserHandler(user._id)}>Xóa người dùng</Button></div>
+                                    <div><Button variant="outline-primary" onClick={() => changeStatusUserHandler(user._id)}>{user.statusType ? "Khóa người dùng" : "Mở khóa người dùng"}</Button></div>
                                </div> 
                             </td>
                         </tr>)

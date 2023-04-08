@@ -1,16 +1,23 @@
 import React from "react";
 import { Container, Nav, Navbar, Dropdown, NavItem, NavLink } from "react-bootstrap";
-import { useSelector } from "react-redux";
+
 import { useNavigate } from "react-router-dom";
 import logo from '../assets/image/logo.png';
 import classes from './Header.module.css';
+import { logout } from "../../api/userApi";
 
 const Header = (props) => {
-  const userInfo = useSelector((state) => state.user.userInfo);
+  const userInfo = JSON.parse(localStorage.getItem('user'));
   const navigate = useNavigate();
 
-  const logOutHandler = () => {
-    navigate('/');
+  const logOutHandler = async () => {
+    try {
+      await logout(userInfo.token);
+      localStorage.clear();
+      navigate('/');
+    } catch (error) {
+      console.log(error.message);
+    }
   }
   return (
     <Navbar className={classes.navbar} expand="lg" fixed="top">
@@ -25,7 +32,7 @@ const Header = (props) => {
             </Nav>
             <Nav>
               <Dropdown as={NavItem}>
-                <Dropdown.Toggle as={NavLink} className="text-white">{userInfo.name}</Dropdown.Toggle>
+                <Dropdown.Toggle as={NavLink} className="text-white">{userInfo.username}</Dropdown.Toggle>
                 <Dropdown.Menu variant="light" key="down-centered">
                   <Dropdown.Item href="#action/3.1">Thông tin tài khoản</Dropdown.Item>
                   {userInfo.isAdmin && <Dropdown.Item href="/admin/news">Quản lý bài viết</Dropdown.Item>}
@@ -45,10 +52,10 @@ const Header = (props) => {
             </Nav>
             <Nav>
               <Dropdown as={NavItem}>
-                <Dropdown.Toggle as={NavLink} className="text-white">{userInfo.name}</Dropdown.Toggle>
+                <Dropdown.Toggle as={NavLink} className="text-white">{userInfo.username}</Dropdown.Toggle>
                 <Dropdown.Menu variant="light" key="down-centered">
                   <Dropdown.Item href="#action/3.1">Thông tin tài khoản</Dropdown.Item>
-                  {userInfo.isAdmin && <Dropdown.Item href="/admin/news">Quản lý bài viết</Dropdown.Item>}
+                  {userInfo.type === "admin" && <Dropdown.Item href="/admin/news">Quản lý bài viết</Dropdown.Item>}
                   <Dropdown.Item onClick={logOutHandler}>Đăng xuất</Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>

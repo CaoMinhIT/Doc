@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -13,18 +13,19 @@ import NewsDetail from './components/pages/Home/newsDetail/NewsDetail';
 import { dummyDataNews } from './components/dummyData/dummyData';
 function App() {
   const newsList = [...dummyDataNews];
-
+  const isLogin = !!localStorage.getItem('access-token');
+  
   return (
     <Router className = "app">
         <Routes>
           <Route path="/" element={<Login/>}/>
           <Route path="/register" element={<Register/>}/> 
-          <Route path='/home' element={<Home/>}/>
-          <Route path='/admin/news' element={<Admin/>}/>
-          <Route path='/admin/users' element={<AccountManagement/>}/>
+          <Route path='/home' element={isLogin ? <Home/> : <Navigate to='/'/>}/>
+          <Route path='/admin/news' element={isLogin ? <Admin/> : <Navigate to='/'/>}/>
+          <Route path='/admin/users' element={isLogin ? <AccountManagement/> : <Navigate to='/'/>}/>
           {newsList.map((news, index) => 
             <Route key={index} path={`/news/${news.id}`} element={ 
-              <NewsDetail news={news} />
+              isLogin ? <NewsDetail news={news} /> : <Navigate to='/'/>
             }></Route>
           )}
         </Routes>

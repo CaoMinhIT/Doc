@@ -1,20 +1,31 @@
 import React, { useRef, useState } from "react"
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import classes from "./Register.module.css"
+import { signUp } from "../../../api/userApi";
 
 const Register = () =>{
     const emailInputRef = useRef();
+    const nameInputRef = useRef();
     const passwordInputRef = useRef();
     const confirmPasswordInputRef = useRef();
     const [error, setError] = useState('');
-    const navigate = useNavigate();
-    const submitHandler = (event) => {
+    const [isSuccess, setIsSuccess] = useState(false);
+    const submitHandler = async (event) => {
         event.preventDefault();
-        console.log(emailInputRef.current.value, passwordInputRef.current.value);
         if(passwordInputRef.current.value !== confirmPasswordInputRef.current.value){
           setError('Mật khẩu xác thực không khớp!');
         } else {
-          navigate('/')
+          try {
+            await signUp(emailInputRef.current.value, passwordInputRef.current.value, nameInputRef.current.value);
+            emailInputRef.current.value = '';
+            nameInputRef.current.value = '';
+            passwordInputRef.current.value = '';
+            confirmPasswordInputRef.current.value = '';
+            setError('');
+            setIsSuccess(true);
+          } catch (error) {
+            setError(error.response.data);
+          }
         }
     }
 
@@ -31,6 +42,15 @@ const Register = () =>{
                 id='email' 
                 required 
                 ref={emailInputRef} 
+              />
+            </div>
+            <div className={classes.control}>
+              <label htmlFor='email'>Họ và tên</label>
+              <input 
+                type='name' 
+                id='name' 
+                required 
+                ref={nameInputRef} 
               />
             </div>
             <div className={classes.control}>
@@ -51,7 +71,8 @@ const Register = () =>{
                 ref={confirmPasswordInputRef} 
               />
             </div>
-            <p className={classes.error}>{error ? `Lỗi: ${error}` : ''}</p>
+            {error && <p className={classes.error}> Lỗi: {error}</p>}
+            {isSuccess && <p className="text-success"> Đăng ký thành công </p>}
             <div className={classes.actions}>
               <button
                 type='submit'
