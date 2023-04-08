@@ -1,7 +1,4 @@
-// const { request } = require('express');
-// const connection = require('../config/database');
-// // const { getAllUsers, getUserByID, 
-// //   updateUserById, deleteUserById} = require('../services/CRUDService')
+
 
 
 // const getHomePage = async(req,res) => {
@@ -20,6 +17,12 @@
 //       }
 // };
 
+// module.exports ={
+//     getHomePage,
+//     login,
+//     getCreatePage,
+//     postCreateUser
+// }
 
 // // Create-User
 // // const User = require('../models/user');
@@ -42,9 +45,9 @@
 //   res.render('create');
 // }
 
-// module.exports ={
-//     getHomePage,
-//     login,
-//     getCreatePage,
-//     // postCreateUser
-// }
+
+
+// const { request } = require('express');
+// const connection = require('../config/database');
+// // const { getAllUsers, getUserByID, 
+// //   updateUserById, deleteUserById} = require('../services/CRUDService')
