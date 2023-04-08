@@ -2,7 +2,7 @@ import React from "react";
 import { Container, Nav, Navbar, Dropdown, NavItem, NavLink } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import logo from '../assets/image/meooo.jpg';
+import logo from '../assets/image/logo.png';
 import classes from './Header.module.css';
 
 const Header = (props) => {
