@@ -20,7 +20,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Login/>}/>
           <Route path="/register" element={<Register/>}/> 
-          <Route path='/home' element={isLogin ? <Home/> : <Navigate to='/'/>}/>
+          <Route path='/home' element={ <Home/>}/>
           <Route path='/admin/news' element={isLogin ? <Admin/> : <Navigate to='/'/>}/>
           <Route path='/admin/users' element={isLogin ? <AccountManagement/> : <Navigate to='/'/>}/>
           {newsList.map((news, index) => 
