@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState}from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -10,9 +10,9 @@ import Admin from './components/pages/admin/Admin';
 import AccountManagement from './components/pages/admin/AccountManagement';
 import NewsDetail from './components/pages/Home/newsDetail/NewsDetail';
 
-import { dummyDataNews } from './components/dummyData/dummyData';
+// import { dummyDataNews } from './components/dummyData/dummyData';
 function App() {
-  const newsList = [...dummyDataNews];
+  const newsList = useState([]);
   const isLogin = !!localStorage.getItem('access-token');
   
   return (
@@ -23,8 +23,10 @@ function App() {
           <Route path='/home' element={ <Home/>}/>
           <Route path='/admin/news' element={isLogin ? <Admin/> : <Navigate to='/'/>}/>
           <Route path='/admin/users' element={isLogin ? <AccountManagement/> : <Navigate to='/'/>}/>
+          
+          {/* <Route path="/news/:id" element={<NewsDetail/>} /> */}
           {newsList.map((news, index) => 
-            <Route key={index} path={`/news/${news.id}`} element={ 
+            <Route key={index} path={`/news/:_id`} element={ 
               isLogin ? <NewsDetail news={news} /> : <Navigate to='/'/>
             }></Route>
           )}
