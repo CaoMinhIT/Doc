@@ -3,10 +3,14 @@ import { Button, Table } from "react-bootstrap";
 import Layout from "../../layout/Layout";
 import MyPagination from "../../common/MyPagination";
 import CreateNewsModal from "./CreateNewsModal";
-import { getNews } from '../../../api/newsApi';
+import { getNews} from '../../../api/newsApi';
+import { deleteNews } from '../../../api/adminApi';
+
+import classes from './admin.module.css';
 
 const Admin = () => {
     const [newsList, setNewsList] = useState([]);
+    
     useEffect(() => {
         const token = localStorage.getItem('access-token');
         const getNewsList = async () => {
@@ -19,14 +23,21 @@ const Admin = () => {
         };
         getNewsList();
     }, [])
+
+
     const [page, setPage] = useState(1);
     const total = newsList.length % 8 > 0 ? newsList.length/8+1 : newsList.length/8;
 
-    const deletedNewsHandler = (id) => {
+    const deletedNewsHandler  = async (id) => {
         const list = [...newsList];
         const index = list.findIndex((news) => news._id === id);
         list.splice(index, 1);
-        setNewsList(list);
+        try {
+            await deleteNews(id);
+            setNewsList(list);
+        } catch (error) {
+            console.log(error.message);
+        }
     }
 
     const handlerChangePage = useCallback((page) => {
@@ -48,18 +59,22 @@ const Admin = () => {
                 <thead>
                     <tr>
                         <th colSpan="2">id</th>
-                        <th colSpan="5">Tiêu đề</th>
+                        <th colSpan="4">Tiêu đề</th>
+                        <th colSpan="2">Hình ảnh</th>
                         <th colSpan="2">Ngày đăng</th>
-                        <th colSpan="3">Xóa bài viết</th>
+                        <th colSpan="2">Xóa bài viết</th>
                     </tr>
                 </thead>
                 <tbody>
                     {newsList.slice((page-1)*8, (page-1)*8+8).map((news, index) => {
                         return (<tr key={index}>
                             <td colSpan="2">{news._id}</td>
-                            <td colSpan="5">{news.title}</td>
+                            <td colSpan="4">{news.title}</td>
+                            <td colSpan="2">
+                                <img className={classes.image} src={news.image} alt="news" width='100%'></img>
+                            </td>
                             <td colSpan="2">{news.createdAt}</td>
-                            <td colSpan="3"><Button variant="outline-danger" onClick={() => deletedNewsHandler(news._id)}>Xóa bài viết</Button></td>
+                            <td colSpan="2"><Button variant="outline-danger" onClick={() => deletedNewsHandler(news._id)}>Xóa bài viết</Button></td>
                         </tr>)
                     })}
                 </tbody>

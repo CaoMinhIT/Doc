@@ -2,6 +2,8 @@ import React, { useCallback, useEffect , useState} from 'react';
 import classes from './Home.module.css';
 import NewsCard from './news/NewsCard';
 import MyPagination from "../../common/MyPagination";
+
+import chaomung from '../../assets/image/chaomung.png';
 // import HotNews from './news/HotNews';
 import Layout from '../../layout/Layout';
 import { getNews } from '../../../api/newsApi';
@@ -30,7 +32,7 @@ const Home = () => {
     return (
         <Layout>
             
-            <img className={classes.banner} src="https://thumbs.dreamstime.com/b/orange-sky-over-sea-sunset-coloring-clouds-bright-light-51802926.jpg" alt="banner"></img>
+            <img className={classes.banner} src={chaomung} alt="banner"></img>
             <h1 className={classes.color_pink}>Tin mới nhất</h1>
             <div className="row">
                 {/* {newsList.slice(0,8).map((item, index) => { */}

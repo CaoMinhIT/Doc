@@ -1,4 +1,4 @@
-import React, {useState}from 'react';
+import React, { useEffect, useState} from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -10,11 +10,29 @@ import Admin from './components/pages/admin/Admin';
 import AccountManagement from './components/pages/admin/AccountManagement';
 import NewsDetail from './components/pages/Home/newsDetail/NewsDetail';
 
-// import { dummyDataNews } from './components/dummyData/dummyData';
+
+import { getNews } from './api/newsApi';
+
+//  import { dummyDataNews } from './components/dummyData/dummyData';
 function App() {
-  const newsList = useState([]);
-  const isLogin = !!localStorage.getItem('access-token');
   
+  const isLogin = !!localStorage.getItem('access-token');
+
+  const [newsList, setNewsList] = useState([]);
+  useEffect (() => {
+    const token = localStorage.getItem('access-token');
+    const getNewsList = async () => {
+        try {
+            const res = await getNews(token);
+            setNewsList(res.data);
+            console.log(res.data);
+        } catch (error) {
+            console.log(error.message);
+        }
+    };
+    getNewsList();
+}, [])
+
   return (
     <Router className = "app">
         <Routes>

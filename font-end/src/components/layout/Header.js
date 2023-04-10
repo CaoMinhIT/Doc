@@ -35,7 +35,7 @@ const Header = (props) => {
                 <Dropdown.Toggle as={NavLink} className="text-white">{userInfo.username}</Dropdown.Toggle>
                 <Dropdown.Menu variant="light" key="down-centered">
                   <Dropdown.Item href="#action/3.1">Thông tin tài khoản</Dropdown.Item>
-                  {userInfo.isAdmin && <Dropdown.Item href="/admin/news">Quản lý bài viết</Dropdown.Item>}
+                  {userInfo.isAdmin && <Dropdown.Item href="/admin/news">Quản lý</Dropdown.Item>}
                   <Dropdown.Item onClick={logOutHandler}>Đăng xuất</Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>

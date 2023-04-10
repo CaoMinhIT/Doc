@@ -2,7 +2,7 @@
     padding: 15px;
     background-color: white;
     border-radius: 10px;
-    margin: 15px 0;
+    /* margin: 15px 0; */
 }
 .card:hover {
     padding: 15px;
@@ -26,6 +26,9 @@
 }
 .image{
     border-radius: 5px;
+    max-width: 100%;
+    height: auto;
+    margin: 0 auto; /* căn giữa ảnh */
 }
 .word_wrap {
     max-width: 100%;
