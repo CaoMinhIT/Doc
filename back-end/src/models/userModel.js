@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 
-// Schema Định dạng hình thù Data
 const userSchema = new mongoose.Schema({ 
 
     email:{

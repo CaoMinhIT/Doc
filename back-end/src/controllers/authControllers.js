@@ -17,8 +17,6 @@ const authControllers = {
     },
 
     //Register
- 
-
     registerUser: async(req,res)=>{
         try{
             const salt = await bcrypt.genSalt(10);

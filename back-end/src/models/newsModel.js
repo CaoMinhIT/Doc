@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-// Schema Định dạng hình thù Data
+
 const newsSchema = new mongoose.Schema({ 
     image:{
         type: String,
