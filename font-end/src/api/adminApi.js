@@ -28,11 +28,35 @@ export const changeStatusUser = (id) => {
   }
 }
 
+export const changeStatusNews = (id) => {
+  try {
+      const res = axios({
+      method: 'put',
+      url: baseUrl + '/user/' + id + '/changeStatus',
+    });
+    return res;
+  } catch (error) {
+    throw error;
+  }
+}
+
 export const deleteUser = (id) => {
   try {
       const res = axios({
       method: 'delete',
       url: baseUrl + '/user/' + id,
+    });
+    return res;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export const deleteNews = (id) => {
+  try {
+      const res = axios({
+      method: 'delete',
+      url: baseUrl + '/news/:id' + id,
     });
     return res;
   } catch (error) {
