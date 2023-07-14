@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react"
 import { Link, useNavigate } from 'react-router-dom';
 import classes from "./Login.module.css"
-import { login } from "../../../api/userApi";
+import { login } from "../../../api/UserAPI";
 
 const Login = () =>{
     const emailInputRef = useRef();

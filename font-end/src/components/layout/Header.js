@@ -4,7 +4,7 @@ import { Container, Nav, Navbar, Dropdown, NavItem, NavLink } from "react-bootst
 import { useNavigate } from "react-router-dom";
 import logo from '../assets/image/logo.png';
 import classes from './Header.module.css';
-import { logout } from "../../api/userApi";
+import { logout } from "../../api/UserAPI";
 
 const Header = (props) => {
   const userInfo = JSON.parse(localStorage.getItem('user'));

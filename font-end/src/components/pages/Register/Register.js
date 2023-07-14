@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react"
 import { Link } from 'react-router-dom';
 import classes from "./Register.module.css"
-import { signUp } from "../../../api/userApi";
+import { signUp } from "../../../api/UserAPI";
 
 const Register = () =>{
     const emailInputRef = useRef();
