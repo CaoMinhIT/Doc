@@ -26,7 +26,7 @@ app.use('/v1/auth',authRoutes);
 const userRoutes = require('./routes/user')
 app.use('/v1/user',userRoutes);
 
-const newRoutes = require('./routes/news.js')
+const newRoutes = require('./routes/news')
 app.use('/v1/news',newRoutes);
 
 
